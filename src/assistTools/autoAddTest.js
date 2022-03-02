@@ -34,17 +34,18 @@ const generateTestFileContent = (fileName) => {
 
   
 test("测试${fileName}", () => {
-  const testParamOne = "";
-  const testParamTwo = "";
-  const testParamsArr = [testParamOne, testParamTwo];
+  const paramOne = "";
+  const paramTwo = "";
+  const paramThree = "";
+  const paramsArr = [paramOne, paramTwo, paramThree];
   
-  const testRes = "";
+  const res = "";
 
   const testFunc = require("../${fileName}.js");
-  const result = testFunc(...testParamsArr);
+  const result = testFunc(...paramsArr);
   
 
-  expect(result).toBe(testRes);
+  expect(result).toBe(res);
 });
   `;
 };
