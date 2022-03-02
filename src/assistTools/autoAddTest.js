@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { pathExists, ensureFile, writeFile } = require("fs-extra");
 
+const testDir = "__test__";
 const relativePath = "";
 const defaultPath = path.join(__dirname, relativePath);
 
@@ -26,13 +27,11 @@ const getFileName = (item, watchPath) => {
   return fileBaseName.replace(fileExtName, "");
 };
 const getTestFilePath = (fileName, watchPath) => {
-  return path.join(watchPath, `/__test__/${fileName}.spec.js`);
+  return path.join(watchPath, `/${testDir}/${fileName}.spec.js`);
 };
 
 const generateTestFileContent = (fileName) => {
   return `
-
-  
 test("测试${fileName}", () => {
   const paramOne = "";
   const paramTwo = "";
@@ -102,6 +101,13 @@ module.exports = function (watchPath = defaultPath) {
 
         await deleteTestFile(newDeleteItems, watchPath);
         console.log(`删除文件${newDeleteItems}成功!`);
+
+        const currentDir = fs.readdirSync(watchPath);
+        if (currentDir.length === 1 && currentDir[0] === testDir) {
+          fs.rmdir(path.join(watchPath, `/${testDir}`), () => {
+            console.log(`删除测试文件夹成功!`);
+          });
+        }
       }
 
       oldFilesArr = [...newFilesArr];

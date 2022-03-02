@@ -1,11 +1,12 @@
 {
   "name": "shine-dev-tools",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "personal dev tools",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dist": "webpack"
+    "dist": "webpack",
+    "add-test": "node ./scripts/addTestFiles.js --watch"
   },
   "repository": {
     "type": "git",
