@@ -3,13 +3,13 @@ const path = require("path");
 const { pathExists, ensureFile, writeFile } = require("fs-extra");
 
 const relativePath = "";
-const leetCodePath = path.join(__dirname, relativePath);
+const defaultPath = path.join(__dirname, relativePath);
 
-const getFilesInDir = (wholeArr) => {
+const getFilesInDir = (wholeArr, watchPath) => {
   const filterData = [];
 
   wholeArr.forEach((item) => {
-    const itemPath = path.join(leetCodePath, item);
+    const itemPath = path.join(watchPath, item);
     if (path.extname(itemPath) === ".js") {
       filterData.push(item);
     }
@@ -18,19 +18,15 @@ const getFilesInDir = (wholeArr) => {
   return filterData;
 };
 
-const oldDir = fs.readdirSync(leetCodePath);
-let oldFilesArr;
-oldFilesArr = getFilesInDir(oldDir);
-
-const getFileName = (item) => {
-  const itemPath = path.join(leetCodePath, item);
+const getFileName = (item, watchPath) => {
+  const itemPath = path.join(watchPath, item);
   const fileBaseName = path.basename(itemPath);
   const fileExtName = path.extname(itemPath);
 
   return fileBaseName.replace(fileExtName, "");
 };
-const getTestFilePath = (fileName) => {
-  return path.join(leetCodePath, `/__test__/${fileName}.spec.js`);
+const getTestFilePath = (fileName, watchPath) => {
+  return path.join(watchPath, `/__test__/${fileName}.spec.js`);
 };
 
 const generateTestFileContent = (fileName) => {
@@ -52,11 +48,11 @@ test("测试${fileName}", () => {
 });
   `;
 };
-const generateTestFile = async (itemsArr) => {
+const generateTestFile = async (itemsArr, watchPath) => {
   await Promise.all(
     itemsArr.map(async (item) => {
-      const fileName = getFileName(item);
-      const testFileName = getTestFilePath(fileName);
+      const fileName = getFileName(item, watchPath);
+      const testFileName = getTestFilePath(fileName, watchPath);
       const testFileContent = generateTestFileContent(fileName);
 
       await ensureFile(testFileName);
@@ -64,11 +60,11 @@ const generateTestFile = async (itemsArr) => {
     })
   );
 };
-const deleteTestFile = async (itemsArr) => {
+const deleteTestFile = async (itemsArr, watchPath) => {
   await Promise.all(
     itemsArr.map(async (item) => {
-      const fileName = getFileName(item);
-      const testFileName = getTestFilePath(fileName);
+      const fileName = getFileName(item, watchPath);
+      const testFileName = getTestFilePath(fileName, watchPath);
 
       if (await pathExists(testFileName)) {
         fs.unlinkSync(testFileName);
@@ -77,11 +73,14 @@ const deleteTestFile = async (itemsArr) => {
   );
 };
 
-module.exports = function () {
-  fs.watch(leetCodePath, async () => {
-    const newDir = fs.readdirSync(leetCodePath);
+module.exports = function (watchPath = defaultPath) {
+  const oldDir = fs.readdirSync(watchPath);
+  let oldFilesArr = getFilesInDir(oldDir, watchPath);
 
-    const newFilesArr = getFilesInDir(newDir);
+  fs.watch(watchPath, async () => {
+    const newDir = fs.readdirSync(watchPath);
+
+    const newFilesArr = getFilesInDir(newDir, watchPath);
 
     const newFilesLen = newFilesArr.length;
     const oldFilesLen = oldFilesArr.length;
@@ -92,7 +91,7 @@ module.exports = function () {
           (item) => !oldFilesArr.includes(item)
         );
 
-        await generateTestFile(newAddItems);
+        await generateTestFile(newAddItems, watchPath);
 
         console.log(`添加文件${newAddItems}成功!`);
       } else {
@@ -100,7 +99,7 @@ module.exports = function () {
           (item) => !newFilesArr.includes(item)
         );
 
-        await deleteTestFile(newDeleteItems);
+        await deleteTestFile(newDeleteItems, watchPath);
         console.log(`删除文件${newDeleteItems}成功!`);
       }
 
