@@ -1,10 +1,11 @@
 {
   "name": "shine-dev-tools",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "personal dev tools",
   "main": "./src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dist": "webpack"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,11 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "prettier": "^2.5.1"
+    "@babel/core": "^7.17.5",
+    "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "prettier": "^2.5.1",
+    "webpack": "^5.69.1",
+    "webpack-cli": "^4.9.2"
   }
 }
