@@ -1,8 +1,8 @@
 {
   "name": "shine-dev-tools",
-  "version": "1.0.3",
+  "version": "1.0.8",
   "description": "personal dev tools",
-  "main": "./src/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dist": "webpack"
@@ -23,12 +23,15 @@
   },
   "homepage": "https://github.com/jiuyehengxia/devTools#readme",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "fs-extra": "^10.0.1",
     "path": "^0.12.7"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
+    "@babel/preset-env": "^7.16.11",
     "babel-loader": "^8.2.3",
+    "babel-preset-env": "^1.7.0",
     "clean-webpack-plugin": "^4.0.0",
     "prettier": "^2.5.1",
     "webpack": "^5.69.1",

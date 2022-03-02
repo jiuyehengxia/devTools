@@ -1,6 +1,6 @@
-import fs from "fs";
-import path from "path";
-import { pathExists, ensureFile, writeFile } from "fs-extra";
+const fs = require("fs");
+const path = require("path");
+const { pathExists, ensureFile, writeFile } = require("fs-extra");
 
 const relativePath = "";
 const leetCodePath = path.join(__dirname, relativePath);
@@ -77,7 +77,7 @@ const deleteTestFile = async (itemsArr) => {
   );
 };
 
-export default function () {
+module.exports = function () {
   fs.watch(leetCodePath, async () => {
     const newDir = fs.readdirSync(leetCodePath);
 
@@ -107,4 +107,4 @@ export default function () {
       oldFilesArr = [...newFilesArr];
     }
   });
-}
+};

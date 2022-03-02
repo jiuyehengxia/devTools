@@ -1,5 +1,4 @@
-import autoAddTest from "./assistTools/autoAddTest";
+require("babel-polyfill");
+const autoAddTest = require("./assistTools/autoAddTest");
 
-const utilObj = { autoAddTest };
-
-export default utilObj;
+module.exports = { autoAddTest };
