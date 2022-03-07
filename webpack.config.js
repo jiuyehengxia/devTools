@@ -9,6 +9,8 @@ const config = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].js",
+    library: "devTools",
+    libraryTarget: "commonjs",
   },
   mode: "development",
   module: {

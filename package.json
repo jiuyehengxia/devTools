@@ -1,6 +1,6 @@
 {
   "name": "shine-dev-tools",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "personal dev tools",
   "main": "index.js",
   "scripts": {
@@ -37,5 +37,8 @@
     "prettier": "^2.5.1",
     "webpack": "^5.69.1",
     "webpack-cli": "^4.9.2"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
